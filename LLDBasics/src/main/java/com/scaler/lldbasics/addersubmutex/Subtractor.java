@@ -16,7 +16,7 @@ public class Subtractor implements Runnable {
     public void run() {
         for (int i = 1; i <= 1000000; i++) {
             lock.lock();
-            count.value -= i;
+            count.value -= 1;
             lock.unlock();
         }
     }

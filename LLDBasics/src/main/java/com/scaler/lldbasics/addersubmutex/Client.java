@@ -7,8 +7,8 @@ public class Client {
     public static void main(String[] args) throws InterruptedException {
         Count count = new Count();
         Lock lock = new ReentrantLock();
-        Adder adder = new Adder (count, lock);
-        Subtractor subtractor = new Subtractor (count, lock);
+        Adder adder = new Adder(count, lock);
+        Subtractor subtractor = new Subtractor(count, lock);
         Thread t1 = new Thread (adder);
         Thread t2 = new Thread (subtractor);
         t1.start();

@@ -1,7 +1,7 @@
 package com.scaler.lldbasics.addersubsync;
 
 public class Count {
-    public int value = 0;
+    public int value=0;
 
 //    public synchronized void increment() {
 //        value += 1;

@@ -9,7 +9,7 @@ public class Subtractor implements Runnable {
 
     @Override
     public void run() {
-        for (int i = 1; i <= 100; i+=1) {
+        for (int i = 1; i <= 1000000; i+=1) {
             count.value -= 1;
         }
     }
