@@ -1,4 +1,4 @@
-package com.scaler.lldbasics.designpatterns;
+package com.scaler.lldbasics.designpatterns.singleton;
 
 public class DatabaseConnection {
 
