@@ -64,4 +64,9 @@ public class Builder {
     public void setPsp(double psp) {
         this.psp = psp;
     }
+
+    public Student build() {
+        //Use this method to actually build the Student object.
+        return new Student(this);
+    }
 }

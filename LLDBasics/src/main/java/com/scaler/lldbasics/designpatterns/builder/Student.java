@@ -24,4 +24,8 @@ public class Student {
         this.gradYear = builder.gradYear;
         this.psp = builder.psp;
     }
+
+    public static Builder getBuilder() {
+        return new Builder();
+    }
 }

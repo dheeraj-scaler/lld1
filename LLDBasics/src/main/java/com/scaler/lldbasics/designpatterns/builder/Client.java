@@ -7,13 +7,13 @@ public class Client {
         //Builder builder = Student.getBuilder();
         builder.setName("Sahil");
         builder.setBatch("Apr23 Tuesday Beginner Morning");
-        builder.setGradYear(2019);
+        builder.setGradYear(2023);
         builder.setPsp(89.0);
         builder.setAge(25);
         builder.setUniversityName("Scaler");
 
-        Student student = new Student(builder);
-
+        //Student student = new Student(builder);
+        Student student = builder.build();
         System.out.println("Debug");
     }
 }
