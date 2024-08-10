@@ -25,10 +25,9 @@ public class Board {
         // We will print the board
         for(List<Cell> row : board) {
             for(Cell cell: row) {
-                // print this current cell
                 cell.display();
             }
-//            System.out.println("\n");
+            System.out.println("");
         }
     }
 

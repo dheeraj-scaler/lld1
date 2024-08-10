@@ -23,11 +23,15 @@ public class GameController {
         game.makeMove();
     }
 
-    public void printGame() {
-
+    public void printBoard(Game game) {
+        game.printBoard();
     }
 
-    public Player getWinner() {
-        return null;
+    public Player getWinner(Game game) {
+        return game.getWinner();
+    }
+
+    public void undo(Game game) {
+        game.undo();
     }
 }

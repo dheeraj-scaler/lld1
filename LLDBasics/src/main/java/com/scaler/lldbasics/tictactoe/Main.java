@@ -11,14 +11,16 @@ import com.scaler.lldbasics.tictactoe.strategies.winningstrategies.WinningStrate
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) throws InvalidBotCountException, InvalidPlayerCountException {
+        Scanner scanner = new Scanner(System.in);
         int dimension = 3;
         List<Player> players = new ArrayList<>();
         players.add(new Player( "Gaurav",1, new Symbol('X'), PlayerType.HUMAN));
-        players.add(new Player( "Madhu",2, new Symbol('O'), PlayerType.HUMAN));
+        players.add(new Bot( "Madhu",2, new Symbol('O'), PlayerType.BOT, BotDifficultyLevel.EASY));
 
         List<WinningStrategy> winningStrategies = new ArrayList<>();
         winningStrategies.add(new RowWinningStrategy());
@@ -33,10 +35,25 @@ public class Main {
             // Print the board
             // Make the move
 
-            gameController.printGame();
+            gameController.printBoard(game);
 
-            gameController.makeMove();
+            System.out.println("If you want to undo? Enter y/n");
+            String undo = scanner.next();
+
+            if(undo.equalsIgnoreCase("y")) {
+                gameController.undo(game);
+                continue;
+            }
+
+            gameController.makeMove(game);
         }
+
+        gameController.printBoard(game);
+
+
+        // Make a check of game state
+        // If the game is a draw, print message accordingly
+        System.out.println(gameController.getWinner(game).getName());
 
     }
 }

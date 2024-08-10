@@ -26,6 +26,9 @@ public class Game {
         this.winningStrategies = winningStrategies;
     }
 
+    public void printBoard() {
+        board.printBoard();
+    }
     public void makeMove() {
         Player currentPlayer = players.get(nextPlayerMoveIndex);
 
@@ -55,6 +58,48 @@ public class Game {
         // After you have made a move, you need to check the
         // status of the game
 
+        if(checkWinner(finalMoveObject)) {
+            winner = currentPlayer;
+            gameState = GameState.ENDED;
+        } else if(moves.size() == (board.getDimension()* board.getDimension())) {
+            // Game is a draw
+            gameState = GameState.DRAW;
+        }
+
+    }
+
+    private boolean checkWinner(Move move) {
+        // Iterate through all the winning strategies and
+        // check if the game has a winner
+        for(WinningStrategy winningStrategy : winningStrategies) {
+            if(winningStrategy.checkWinner(board, move)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void undo() {
+        if(moves.isEmpty()) {
+            System.out.println("Moves list is 0");
+            return;
+        }
+
+        // remove the last move and clear from the board
+        // and winning strategies
+        Move lastMove = moves.get(moves.size() - 1);
+        moves.remove(lastMove);
+
+        Cell cell = lastMove.getCell();
+        cell.setCellState(CellState.EMPTY);
+        cell.setPlayer(null);
+
+        for(WinningStrategy winningStrategy : winningStrategies) {
+            winningStrategy.handleUndo(board, lastMove);
+        }
+
+        nextPlayerMoveIndex -= 1;
+        nextPlayerMoveIndex = (nextPlayerMoveIndex + players.size()) % players.size();
 
     }
 
