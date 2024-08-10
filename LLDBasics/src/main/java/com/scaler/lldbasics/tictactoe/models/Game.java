@@ -26,6 +26,38 @@ public class Game {
         this.winningStrategies = winningStrategies;
     }
 
+    public void makeMove() {
+        Player currentPlayer = players.get(nextPlayerMoveIndex);
+
+        System.out.println(currentPlayer.getName() + "'s turn is there");
+
+        Move move = currentPlayer.makeMove(board);
+
+        System.out.println(currentPlayer.getName() + " is making the move at " + move.getCell().getRow() + " " + move.getCell().getColumn());
+
+        // validate it (Homework)
+        // Make the changes in the board
+        // 1,1
+
+        int row = move.getCell().getRow();
+        int col = move.getCell().getColumn();
+
+        Cell cellToChange = board.getBoard().get(row).get(col);
+        cellToChange.setCellState(CellState.FILLED);
+        cellToChange.setPlayer(currentPlayer);
+
+        Move finalMoveObject = new Move(currentPlayer, cellToChange);
+        moves.add(finalMoveObject);
+
+        nextPlayerMoveIndex += 1;
+        nextPlayerMoveIndex %= players.size();
+
+        // After you have made a move, you need to check the
+        // status of the game
+
+
+    }
+
     public Board getBoard() {
         return board;
     }

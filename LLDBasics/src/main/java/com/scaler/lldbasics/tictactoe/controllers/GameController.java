@@ -19,8 +19,8 @@ public class GameController {
         return game;
     }
 
-    public void makeMove() {
-
+    public void makeMove(Game game) {
+        game.makeMove();
     }
 
     public void printGame() {
