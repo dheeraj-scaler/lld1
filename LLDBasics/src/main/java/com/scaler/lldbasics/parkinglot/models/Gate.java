@@ -37,4 +37,14 @@ public class Gate extends BaseModel{
     public void setGateNumber(int gateNumber) {
         this.gateNumber = gateNumber;
     }
+
+    @Override
+    public String toString() {
+        return "Gate{" +
+                "operator=" + operator +
+                ", gateStatus=" + gateStatus +
+                ", gateType=" + gateType +
+                ", gateNumber=" + gateNumber +
+                '}';
+    }
 }

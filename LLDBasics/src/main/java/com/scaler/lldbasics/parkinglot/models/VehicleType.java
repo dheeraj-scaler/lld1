@@ -1,4 +1,6 @@
 package com.scaler.lldbasics.parkinglot.models;
 
-public class VehicleType {
+public enum VehicleType {
+    SEDAN,
+    SUV
 }
