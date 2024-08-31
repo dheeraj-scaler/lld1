@@ -76,6 +76,7 @@ public class SettleUpService {
  4. Implement the settle up algo
  **/
         List<Expense> expenseList = new ArrayList<>();
+        // FIXME HW
         return expenseList;
     }
 }
