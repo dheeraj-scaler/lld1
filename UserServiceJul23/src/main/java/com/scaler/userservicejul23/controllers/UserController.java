@@ -2,6 +2,7 @@ package com.scaler.userservicejul23.controllers;
 
 import com.scaler.userservicejul23.dtos.*;
 import com.scaler.userservicejul23.models.Token;
+import com.scaler.userservicejul23.models.User;
 import com.scaler.userservicejul23.services.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,8 +34,15 @@ public class UserController {
     }
 
 
-    public SignUpResponseDto signUp(SignUpRequestDto requestDto) {
-        return null;
+    @PostMapping("/signup")
+    public SignUpResponseDto signUp(@RequestBody SignUpRequestDto requestDto) {
+       User user = userService.signUp(requestDto.getName(), requestDto.getEmail(), requestDto.getPassword());
+
+       SignUpResponseDto responseDto = new SignUpResponseDto();
+       responseDto.setResponseStatus(ResponseStatus.SUCCESS);
+       responseDto.setUser(user);
+
+       return responseDto;
 
     }
 

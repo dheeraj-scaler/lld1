@@ -7,7 +7,10 @@ import com.scaler.userservicejul23.repositories.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Optional;
 import java.util.random.RandomGenerator;
@@ -56,12 +59,12 @@ public class UserServiceImpl implements UserService{
         token.setValue("abcdefgh");
 
         // FIXME
-//        LocalDate today = LocalDate.now();
-//        LocalDate thirtyDaysLater = today.plus(30, ChronoUnit.DAYS);
-//
-//        Date expiryAt = Date.from(thirtyDaysLater.atStartOfDay(ZoneId.systemDefault()).toInstant());
-//
-//        token.setExpiryAt(expiryAt);
+        LocalDate today = LocalDate.now();
+        LocalDate thirtyDaysLater = today.plus(30, ChronoUnit.DAYS);
+
+        Date expiryAt = Date.from(thirtyDaysLater.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        token.setExpiryAt(expiryAt);
 
         return token;
     }
@@ -92,11 +95,26 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User validateToken(String token) {
-        return null;
+        // Fetch the token from db and check if it is expired or not
+        // If expired, return null
+        // else return user
+
+        Optional<Token> optionalToken = tokenRepository.findByValueAndDeletedAndExpiryAtGreaterThan(
+                token,
+                false,
+                new Date()
+        );
+
+        if(optionalToken.isEmpty()) {
+            // Throw some exception
+            return null;
+        }
+
+        return optionalToken.get().getUser();
     }
 
     @Override
     public void logout(String token) {
-
+        // set deleted as true in tokens
     }
 }
