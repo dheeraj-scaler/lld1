@@ -57,8 +57,11 @@ public class UserServiceImpl implements UserService{
 
         // FIXME
 //        LocalDate today = LocalDate.now();
+//        LocalDate thirtyDaysLater = today.plus(30, ChronoUnit.DAYS);
 //
-//        token.setExpiryAt(Date.from(today.to));
+//        Date expiryAt = Date.from(thirtyDaysLater.atStartOfDay(ZoneId.systemDefault()).toInstant());
+//
+//        token.setExpiryAt(expiryAt);
 
         return token;
     }

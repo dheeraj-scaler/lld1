@@ -1,7 +1,10 @@
 package com.scaler.userservicejul23.controllers;
 
 import com.scaler.userservicejul23.dtos.*;
+import com.scaler.userservicejul23.models.Token;
 import com.scaler.userservicejul23.services.UserService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,9 +18,17 @@ public class UserController {
         this.userService = userService;
     }
 
-    public LoginResponseDto login(LoginRequestDto requestDto) {
+    @PostMapping("/login")
+    public LoginResponseDto login(@RequestBody LoginRequestDto requestDto) {
+        Token token = userService.login(
+                requestDto.getEmail(),
+                requestDto.getPassword()
+        );
 
-        return null;
+        LoginResponseDto responseDto = new LoginResponseDto();
+        responseDto.setToken(token);
+
+        return responseDto;
 
     }
 
