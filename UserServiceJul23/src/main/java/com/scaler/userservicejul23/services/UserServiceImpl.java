@@ -1,9 +1,14 @@
 package com.scaler.userservicejul23.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.scaler.userservicejul23.dtos.SendEmailEventDto;
 import com.scaler.userservicejul23.models.Token;
 import com.scaler.userservicejul23.models.User;
 import com.scaler.userservicejul23.repositories.TokenRepository;
 import com.scaler.userservicejul23.repositories.UserRepository;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +26,15 @@ public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
     private TokenRepository tokenRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private KafkaTemplate<String, String> kafkaTemplate;
+    private ObjectMapper objectMapper;
 
-    public UserServiceImpl(UserRepository userRepository, TokenRepository tokenRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, TokenRepository tokenRepository, BCryptPasswordEncoder bCryptPasswordEncoder, KafkaTemplate<String, String> kafkaTemplate, ObjectMapper objectMapper) {
         this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.kafkaTemplate = kafkaTemplate;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -40,6 +49,22 @@ public class UserServiceImpl implements UserService{
 
         if(optionalUser.isPresent()) {
             // Navigate them to login flow
+            user = optionalUser.get();
+            SendEmailEventDto emailEventDto = new SendEmailEventDto();
+            emailEventDto.setTo(email);
+            emailEventDto.setFrom("dheeraj.kumar_1@scaler.com");
+            emailEventDto.setSubject("Welcome to Scaler");
+            emailEventDto.setBody("Welcome to Scaler, We are very happy to have you on our platform. All the best!!");
+
+
+            try {
+                kafkaTemplate.send(
+                        "sendEmail",
+                        objectMapper.writeValueAsString(emailEventDto)
+                );
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
         } else {
             // create the user in database
             user = new User();
@@ -48,6 +73,21 @@ public class UserServiceImpl implements UserService{
             user.setHashedPassword(bCryptPasswordEncoder.encode(password));
 
             user = userRepository.save(user);
+
+            SendEmailEventDto emailEventDto = new SendEmailEventDto();
+            emailEventDto.setTo(email);
+            emailEventDto.setFrom("dheeraj.kumar_1@scaler.com");
+            emailEventDto.setSubject("Welcome to Scaler platform");
+            emailEventDto.setBody("Welcome to Scaler, We are very happy to have you on our platform. All the best!!");
+
+            try {
+                kafkaTemplate.send(
+                        "sendEmail",
+                        objectMapper.writeValueAsString(emailEventDto)
+                );
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         return user;
