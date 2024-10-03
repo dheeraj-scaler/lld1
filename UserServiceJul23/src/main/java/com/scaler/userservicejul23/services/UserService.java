@@ -12,4 +12,6 @@ public interface UserService {
     User validateToken(String token);
 
     void logout(String token);
+
+    User getUser(Long id);
 }

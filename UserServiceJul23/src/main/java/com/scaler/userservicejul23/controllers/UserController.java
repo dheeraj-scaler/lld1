@@ -1,13 +1,11 @@
 package com.scaler.userservicejul23.controllers;
 
 import com.scaler.userservicejul23.dtos.*;
+import com.scaler.userservicejul23.dtos.ResponseStatus;
 import com.scaler.userservicejul23.models.Token;
 import com.scaler.userservicejul23.models.User;
 import com.scaler.userservicejul23.services.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
@@ -54,4 +52,17 @@ public class UserController {
         return null;
 
     }
+
+    @GetMapping("/get/{id}")
+    public UserDto getById(@PathVariable("id") Long id) {
+
+        UserDto userDto = new UserDto();
+
+        User u = userService.getUser(id);
+        userDto.setEmail(u.getEmail());
+        System.out.println(userDto.toString());
+
+        return userDto;
+    }
+
 }

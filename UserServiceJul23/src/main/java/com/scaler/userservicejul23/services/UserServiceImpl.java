@@ -157,4 +157,11 @@ public class UserServiceImpl implements UserService{
     public void logout(String token) {
         // set deleted as true in tokens
     }
+
+    @Override
+    public User getUser(Long id) {
+        User user = userRepository.getById(id);
+
+        return user;
+    }
 }
